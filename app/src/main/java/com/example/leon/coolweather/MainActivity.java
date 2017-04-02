@@ -1,5 +1,6 @@
 package com.example.leon.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,9 +15,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor= preferences.edit();
+        if(preferences.getString("weather",null) != null){
+            Intent intent = new Intent(this,WeatherActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        /*SharedPreferences.Editor editor= preferences.edit();
         editor.putString("weather",null);
         editor.apply();
-
+*/
     }
 }

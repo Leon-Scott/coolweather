@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,10 +83,20 @@ public class ChooseAreaFragment extends Fragment {
                     queryCounties();
                 }else if(currentLevel == LEVEL_COUNTY){  //启动天气活动页
                     String weatherId = countyList.get(position).getWeatherId();
+                    /*此处碎片被WeatherActivity和MainActivity复用了，处理逻辑不同*/
+                    /*若在MainActivity中，则启动WeatherActivity*/
+                    if(getActivity() instanceof MainActivity){
                     Intent intent = new Intent(getActivity(),WeatherActivity.class);
                     intent.putExtra("weatherId",weatherId);
                     startActivity(intent);
-                    //getActivity().finish();
+                    getActivity().finish();
+                    }/*若在WeatherActivity中（滑动菜单county监听），则关闭滑动菜单，显示刷新进度条，并根据weatherid请求新的天气信息*/
+                    else if (getActivity() instanceof WeatherActivity){
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefreshLayout.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+                    }
                 }
             }
         });
@@ -102,6 +111,7 @@ public class ChooseAreaFragment extends Fragment {
             }
         });
     }
+
 
     /*鏌ヨ鍏ㄥ浗锟??鏈夌殑鐪佷唤锛屼紭鍏堜粠鏁版嵁搴撴煡璇紝鑻ユ病鏈夊垯浠庣綉涓婃煡锟??*/
     private void queryProvinces() {
@@ -203,9 +213,6 @@ public class ChooseAreaFragment extends Fragment {
                                 queryCounties();
                         }
                     });
-                }
-                else{
-                    Log.d("ChooseFragment:",response.body().toString());
                 }
             }
         });
