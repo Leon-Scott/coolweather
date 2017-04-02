@@ -3,6 +3,6 @@
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="GBK">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/leon/coolweather/ChooseAreaFragment.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/leon/coolweather/WeatherActivity.java" charset="GBK" />
-    <file url="PROJECT" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>
